@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+   <properties>
+       <!--Customer_ลูกค้า(m)-->
+       <entry key="m">ลูกค้า </entry>
+       <entry key="m.(m)">ลูกค้า(m) </entry>
+       
+       <!--ต้นทุน(w)-->
+       <entry key="w">ต้นทุนแต่ละสถานี(w) </entry>
+       <!--status-->
+        <entry key="status">สถานี </entry>
+        <entry key="status.(n)">สถานี(n) </entry>
+	<entry key="status.service">[สถานีที่เปิด] จำนวนคนที่ถูกบริการในสถานีนั้นๆ</entry>
+        <entry key="status.open">เพราะฉะนั้นสถานีที่เปิดคือ </entry>
+        
+        <!--C(S)-->
+        <entry key="C(S)">C(S) = </entry>
+        
+        <!--error-->
+        <entry key="error.file">ตรวจสอบไฟล์</entry>
+
+        <!--file-->
+        <entry key="file.path">input path file.txt : </entry>
+        
+        <!--other-->
+        
+        
+        
+        
+   </properties>
