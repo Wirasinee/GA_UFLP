@@ -1,5 +1,11 @@
 package pGa;
 
+import java.text.DecimalFormat;
+import java.util.Map;
+import java.util.Properties;
+import pUflp.ActionUFLP;
+import pUflp.TestUFLP;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -14,21 +20,23 @@ public class Chromosome {
 
     private int[] chromosome;
     private int value;
-    private int fitness;
+    private double fitness;
     private double percentage;
     private double sumPercentage;
 
     public Chromosome(int[] chr) {
-        chromosome = chr;
+        setChromosome(chr);
     }
 
-    public Chromosome(int[] chromosome, int value, int fitness, double percentage, double sumPercentage) {
+    public Chromosome(int[] chromosome, int value, double fitness, double percentage, double sumPercentage) {
         this.chromosome = chromosome;
         this.value = value;
         this.fitness = fitness;
         this.percentage = percentage;
         this.sumPercentage = sumPercentage;
     }
+
+   
 
     public int[] getChromosome() {
         return chromosome;
@@ -46,12 +54,13 @@ public class Chromosome {
         this.value = value;
     }
 
-    public int getFitness() {
+    public double getFitness() {
         return fitness;
     }
 
-    public void setFitness(int fitness) {
-        this.fitness = fitness;
+    public void setFitness(double fitness) {
+        final DecimalFormat FormatPercentage = new DecimalFormat("0.####");
+        this.fitness = Double.parseDouble(FormatPercentage.format(fitness));
     }
 
     public double getPercentage() {
@@ -68,6 +77,10 @@ public class Chromosome {
 
     public void setSumPercentage(double sumPercentage) {
         this.sumPercentage = sumPercentage;
+    }
+
+    void setFitness(int[] chromosome, String dec, Map<String, Chromosome> mapOldChromosome, ActionUFLP uflp, Properties textXml, TestUFLP tUFLP) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
 }

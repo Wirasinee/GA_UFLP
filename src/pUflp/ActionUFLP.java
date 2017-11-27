@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -18,17 +19,19 @@ import java.util.logging.Logger;
  *
  * @author Wirasinee
  */
-public class ActionMainUFLP {
+public class ActionUFLP {
+    
     private int index = 0;
-    private int n, m,s;
+    private int n, m, s;
     private double[][] distance;
     private double[] w;
     private ArrayList<Double> inputFile = null;
     
-    
-    public  void inputAll(ArrayList<Double> file,Properties textXml) {
+
+    public void inputAll(ArrayList<Double> file, Properties textXml) {
         setN(file.get(index++).intValue()); //จ โกดัง
         System.out.println(textXml.getProperty("status.(n)") + ": " + n);
+       
         setM(file.get(index++).intValue()); //จ ลูกค้า
         System.out.println(textXml.getProperty("m.(m)") + ": " + m);
 
@@ -47,29 +50,32 @@ public class ActionMainUFLP {
             }
         }
         for (int i = 0; i < n; i++) {
-            System.out.print("สถานี"+(i + 1) + ": ");
+            System.out.print("สถานี" + (i + 1) + ": ");
             for (int j = 0; j < m; j++) {
 
-                System.out.print( distance[j][i] + " ");
+                System.out.print(distance[j][i] + " ");
 
             }
             System.out.println();
-        }
+        } 
+        
+
     }
 
-    public  FileInputStream  getXML() {
+    public FileInputStream getXML() {
+        
         FileInputStream is = null;
         try {
             is = new FileInputStream("src\\pUflp\\stringUFLP.xml");
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(testUFLP.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TestUFLP.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
             //load the xml file into properties format
-            
+
             return is;
         } catch (Exception ex) {
-            Logger.getLogger(testUFLP.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TestUFLP.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -103,11 +109,9 @@ public class ActionMainUFLP {
     }
 
     public void setS(int s) {
-        this.s = s ;
+        this.s = s;
     }
 
-    
-    
     public double[][] getDistance() {
         return distance;
     }
@@ -132,8 +136,12 @@ public class ActionMainUFLP {
         this.inputFile = inputFile;
     }
 
- 
+    public double searchC(int value) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
     
     
     
+
 }
