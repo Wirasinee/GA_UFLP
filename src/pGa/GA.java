@@ -1,5 +1,6 @@
 package pGa;
 
+import java.io.IOException;
 import pGa.Chromosome;
 import java.text.DecimalFormat;
 import java.util.Arrays;
@@ -7,6 +8,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Scanner;
+import static pGa.GA.textXml;
 import pUflp.ActionUFLP;
 import pUflp.TestUFLP;
 
@@ -21,7 +23,8 @@ import pUflp.TestUFLP;
  * @author Wirasinee
  */
 public class GA {
-
+    static Properties textXml = new Properties();
+    static ActionUFLP uflp = new ActionUFLP();
     private double minFitness ,bestFitness = Double.MAX_VALUE; // minFitness เก็บ Fitness ที่ดีที่สุดในแต่ละรุ่น , bestFitness เก็บ Fitness สุดท้ายที่ดีที่สุด
     private String  minCh; //เก็บch ที่ให้Fitnessที่ดีที่สุดในแต่ละรุ่น
     private int[] minChromosome, bestChromosome;  // minChromosome เก็บChromosome ที่ให้ค่า Fitness ที่ดีที่สุดในแต่ละรุ่น , bestChromosome เก็บChromosome ที่ให้ค่า Fitness สุดท้ายที่ดีที่สุด
@@ -38,13 +41,14 @@ public class GA {
     private String[] matingPool;
     Scanner in = new Scanner(System.in);
 
-    public GA(int chromosomeSize, int populationSize, double popCrossover, double popMutation) {
+    public GA(int chromosomeSize, int populationSize, double popCrossover, double popMutation) throws IOException {
         this.chromosomeSize = chromosomeSize;
         this.populationSize = populationSize;
         this.indiv = new int[chromosomeSize];
         this.matingPool = new String[populationSize];
         this.popCrossover = popCrossover;
         this.popMutation = popMutation;
+        textXml.loadFromXML(uflp.getXML()); //โหลดไฟล์xmlที่ไว้เก็บstring
     }
 
 
@@ -88,7 +92,7 @@ public class GA {
             c.setFitness(tUFLP.mainTestold(indiv, uflp, textXml));       //หาค่าFitness
             sumFitness += c.getFitness();               //+เก็บค่าผลรวมของFitness
 
-            mapChromosome.put("ch" + (q), c);
+            mapChromosome.put(textXml.getProperty("ch") + (q), c);
 
         }
         //System.out.println("sumFitness:" + sumFitness);
@@ -98,7 +102,7 @@ public class GA {
     public Map<String, Chromosome> createTableParent(Map<String, Chromosome> mapChromosome) {
         sumPercentage = 0;
         for (int i = 1; i <= populationSize; i++) {
-            String key = "ch" + i;
+            String key = textXml.getProperty("ch") + i;
             double percentage = (mapChromosome.get(key).getFitness() * 100) / (double) sumFitness;
             percentage = Double.parseDouble(FormatPercentage.format(percentage));
             sumPercentage = Double.parseDouble(FormatPercentage.format((sumPercentage + percentage)));
@@ -108,19 +112,19 @@ public class GA {
         return mapChromosome;
     }
 
-    public void printTableChromosome(Map<String, Chromosome> mapChromosome) {
-        System.out.println("Table Chromosome (indiv|chromosome|value|fitness)");
+    public void printTableChromosome(Map<String, Chromosome> mapChromosome){
+        System.out.println(textXml.getProperty("ga.chromosome.table"));//"Table Chromosome (indiv|chromosome|value|fitness)"
         for (int i = 1; i <= mapChromosome.size(); i++) {
-            String key = "ch" + i;
+            String key = textXml.getProperty("ch") + i;
             System.out.println(key + "  " + Arrays.toString(mapChromosome.get(key).getChromosome()) + "  " + mapChromosome.get(key).getValue()
                     + "   " + mapChromosome.get(key).getFitness());
         }
     }
 
-    public void printTableChromosomeAll(Map<String, Chromosome> mapChromosome) {
-        System.out.println("Table Chromosome (indiv|chromosome|value|fitness|percentage|sumPercentage)");
+    public void printTableChromosomeAll(Map<String, Chromosome> mapChromosome){
+        System.out.println(textXml.getProperty("ga.chromosome.table.full"));
         for (int i = 1; i <= mapChromosome.size(); i++) {
-            String key = "ch" + i;
+            String key = textXml.getProperty("ch") + i;
             System.out.println(key + "  " + Arrays.toString(mapChromosome.get(key).getChromosome()) + "  " + mapChromosome.get(key).getValue()
                     + "   " + mapChromosome.get(key).getFitness() + "   " + mapChromosome.get(key).getPercentage() + "   " + mapChromosome.get(key).getSumPercentage());
         }
@@ -128,7 +132,7 @@ public class GA {
 
     /*สร้าง invividual และ matingPool*/
     public String[] createMatingPool(Map<String, Chromosome> mapChromosome) {
-        System.out.println("invividual=>matingPool");
+        System.out.println(textXml.getProperty("ga.chromosome.invividualConvertMatingPool"));//"invividual=>matingPool");
 
         for (int i = 0; i < populationSize; i++) {
             int individual = actionGA.RandomTo(0, 100);            //สุ่มค่า invividual ตั้งแต่0-100
@@ -136,13 +140,13 @@ public class GA {
             for (int j = populationSize; j > 0; j--) {
 
                 if (individual == 100) {                    //ถ้าinvividualแสดงว่าอยู่ช่วงchสุดท้ายแน่นอน
-                    matingPool[i] = "ch" + j;
+                    matingPool[i] = textXml.getProperty("ch") + j;
                     break;
-                } else if (individual > mapChromosome.get("ch" + j).getSumPercentage()) { //ถ้าinvividualอยู่ช่วงของchไหน
-                    matingPool[i] = " ch" + (j + 1);        //ให้เก็บchนั้นไว้
+                } else if (individual > mapChromosome.get(textXml.getProperty("ch") + j).getSumPercentage()) { //ถ้าinvividualอยู่ช่วงของchไหน
+                    matingPool[i] = textXml.getProperty("ch") + (j + 1);        //ให้เก็บchนั้นไว้
                     break;
                 } else {                                    //อื่นๆ ให้อยู่ ch แรก
-                    matingPool[i] = " ch" + 1;
+                    matingPool[i] = textXml.getProperty("ch") + 1;
                 }
             }
 
@@ -152,13 +156,14 @@ public class GA {
     }
 
     /*การ crossover*/
-    public Map<String, Chromosome> crossover(Map<String, Chromosome> mapChromosome, Map<String, Chromosome> mapNewChromosome) {
+    public Map<String, Chromosome> crossover(Map<String, Chromosome> mapChromosome, Map<String, Chromosome> mapNewChromosome) throws IOException {
+        textXml.loadFromXML(uflp.getXML()); //โหลดไฟล์xmlที่ไว้เก็บstring
         int z = 0;
         int ch = 1;
         for (int i = 0; i < populationSize / 2; i++) {
 
             numRandom = Double.parseDouble(FormatPercentage.format(Math.random())); //สุ่มตัวเลขจำนวนจริงตั้งแต่0-1
-            System.out.print("Random: " + (numRandom));
+            System.out.print(textXml.getProperty("random") + (numRandom)+" ");
 
             int[] parent1 = mapChromosome.get(matingPool[z++].trim()).getChromosome().clone();  //เอาchromosomeของแต่ลลคู่เก็บไว้ในparent1,2
             int[] parent2 = mapChromosome.get(matingPool[z++].trim()).getChromosome().clone();
@@ -176,16 +181,16 @@ public class GA {
                 //System.out.println("+++++++++++++++" + Arrays.toString(lk));
                 while (ch < (chOld + 2)) {
 
-                    System.out.print(" crossover");
-                    System.out.print(matingPool[ch - 1]);
-                    mapNewChromosome.put("ch" + (ch++), new Chromosome(actionGA.combine(parent1.clone(), parent2.clone(), lk[lkIndex]).clone())); //สลับตำแหน่ง parent1 กับ parent2 ตามlk แล้วเก็บไว้ใน mapอันใหม่
-                    System.out.println(matingPool[ch - 1] + " Index: " + (lk[lkIndex]));
+                    System.out.print(textXml.getProperty("ga.crossover")+" ");//crossover
+                    System.out.print(matingPool[ch - 1]+" ");
+                    mapNewChromosome.put(textXml.getProperty("ch") + (ch++), new Chromosome(actionGA.combine(parent1.clone(), parent2.clone(), lk[lkIndex]).clone())); //สลับตำแหน่ง parent1 กับ parent2 ตามlk แล้วเก็บไว้ใน mapอันใหม่
+                    System.out.println(matingPool[ch - 1] + " "+textXml.getProperty("index") + (lk[lkIndex]));
 
-                    mapNewChromosome.put("ch" + (ch++), new Chromosome(actionGA.combine(parent2.clone(), parent1.clone(), lk[lkIndex]).clone())); //สลับตำแหน่ง parent2 กับ parent1 ตามlk แล้วเก็บไว้ใน mapอันใหม่ 
+                    mapNewChromosome.put(textXml.getProperty("ch") + (ch++), new Chromosome(actionGA.combine(parent2.clone(), parent1.clone(), lk[lkIndex]).clone())); //สลับตำแหน่ง parent2 กับ parent1 ตามlk แล้วเก็บไว้ใน mapอันใหม่ 
                     //System.out.println("p" + Arrays.toString(parent1.clone()) + " " + Arrays.toString(parent2.clone()));
                     //System.out.println(">" + Arrays.toString(new Chromosome(m.combine(parent1.clone(), parent2.clone(), lk[lkIndex]).clone()).getChromosome()) + " \n>" + Arrays.toString(new Chromosome(m.combine(parent2.clone(), parent1.clone(), lk[lkIndex]).clone()).getChromosome()));
                     //if(!mapNewChromosome.get("ch"+(ch-2)).getChromosome().toString().contains("1"))
-                    if (!Arrays.toString(mapNewChromosome.get("ch" + (ch - 1)).getChromosome()).contains("1")) {
+                    if (!Arrays.toString(mapNewChromosome.get(textXml.getProperty("ch") + (ch - 1)).getChromosome()).contains("1")) {
                         ch -= 2;
                         //System.out.println("เกิด [000]-1");
                         //System.err.println("เกิด [000]-1");
@@ -193,7 +198,7 @@ public class GA {
 
                         if (lkIndex == lk.length) {
 
-                            int[] a = mapNewChromosome.get("ch" + (ch + 1)).getChromosome();
+                            int[] a = mapNewChromosome.get(textXml.getProperty("ch") + (ch + 1)).getChromosome();
                             int x = actionGA.RandomTo(1, chromosomeSize);
                             int lkNew = 0;
                             for (int Lk = 0; Lk < x; Lk++) {
@@ -202,11 +207,11 @@ public class GA {
 
                             }
                             //System.out.println("lkIndex == lk.length" + lkIndex + "=" + (lk.length) + "x: " + x + "lkNew" + lkNew);
-                            mapNewChromosome.get("ch" + (ch + 1)).setChromosome(a);
+                            mapNewChromosome.get(textXml.getProperty("ch") + (ch + 1)).setChromosome(a);
                             ch += 2;
                         }
 
-                    } else if (!Arrays.toString(mapNewChromosome.get("ch" + (ch - 2)).getChromosome()).contains("1")) {
+                    } else if (!Arrays.toString(mapNewChromosome.get(textXml.getProperty("ch") + (ch - 2)).getChromosome()).contains("1")) {
                         ch -= 2;
                         //System.out.println("เกิด [000]-2");
                         //System.err.println("เกิด [000]-2");
@@ -215,7 +220,7 @@ public class GA {
 
                         if (lkIndex == lk.length) {
 
-                            int[] a = mapNewChromosome.get("ch" + (ch)).getChromosome();
+                            int[] a = mapNewChromosome.get(textXml.getProperty("ch") + (ch)).getChromosome();
                             int x = actionGA.RandomTo(1, chromosomeSize);
 
                             int lkNew = 0;
@@ -225,7 +230,7 @@ public class GA {
 
                             }
                             //System.out.println("lkIndex == lk.length" + lkIndex + "=" + (lk.length) + "x: " + x + "lkNew" + lkNew);
-                            mapNewChromosome.get("ch" + (ch)).setChromosome(a);
+                            mapNewChromosome.get(textXml.getProperty("ch") + (ch)).setChromosome(a);
                             ch += 2;
                         }
                     }
@@ -233,8 +238,8 @@ public class GA {
 
             } else {                                            //ถ้าค่าที่สุ่มมา>=popCrossover(0.75) ก็เก็บ chromosome เดิม ไว้ใน map อันใหม่
                 System.out.println("");
-                mapNewChromosome.put("ch" + (ch++), new Chromosome(parent1));
-                mapNewChromosome.put("ch" + (ch++), new Chromosome(parent2));
+                mapNewChromosome.put(textXml.getProperty("ch") + (ch++), new Chromosome(parent1));
+                mapNewChromosome.put(textXml.getProperty("ch") + (ch++), new Chromosome(parent2));
             }
         }
 
@@ -242,32 +247,32 @@ public class GA {
     }
 
     /*ผ่าเหล่าลูก*/
-    public void onePointMutation(Map<String, Chromosome> mapNewChromosome) {
+    public void onePointMutation(Map<String, Chromosome> mapNewChromosome){
         for (int i = 1; i <= populationSize; i++) {
             int lk = actionGA.RandomTo(1, chromosomeSize - 1); //สุ่มตำแหน่ง
             //System.out.println(lk);
             numRandom = Double.parseDouble(FormatPercentage.format(Math.random())); //สุ่มตัวเลขจำนวนจริงตั้งแต่0-1
-            System.out.print("Random: " + (numRandom));  //แสเงเลขที่สุ่มมา
+            System.out.print(textXml.getProperty("random")+ (numRandom)+" ");  //แสเงเลขที่สุ่มมา
             int z = 0;
             if (popMutation > numRandom) {          //ถ้า เลขที่สุ่มมา < popMutation(0.5) แสดงว่าต้องทำMutation        "เปลียนจาก< เป็น >"                 
-                System.out.println(" Mutation ch" + i + " Index: " + (lk + 1)); //แสดงchที่จะMutation และตำแหน่งที่จะทำ
-                int[] a = mapNewChromosome.get("ch" + i).getChromosome();       // a เก็บ Chromosome ของ ch นั้นไว้
+                System.out.println(textXml.getProperty("ga.mutation")+" "+textXml.getProperty("ch")+ i + " "+textXml.getProperty("index") + (lk + 1)); //แสดงchที่จะMutation และตำแหน่งที่จะทำ
+                int[] a = mapNewChromosome.get(textXml.getProperty("ch") + i).getChromosome();       // a เก็บ Chromosome ของ ch นั้นไว้
                 //System.out.println(Arrays.toString(a));
-                if (a[lk] == 1 && mapNewChromosome.get("ch" + i).getValue() > 1) {                   //ถ้าค่าchromosomeตำแหน่งที่สุ่มมามีค่าเป็น1 จะสลับเป็น 0       
+                if (a[lk] == 1 && mapNewChromosome.get(textXml.getProperty("ch") + i).getValue() > 1) {                   //ถ้าค่าchromosomeตำแหน่งที่สุ่มมามีค่าเป็น1 จะสลับเป็น 0       
                     a[lk] = 0;
-                } else if (a[lk] == 1 && mapNewChromosome.get("ch" + i).getValue() <= 1) {//กรณีป้องกันไม่ให้เกิดเหตุการonePointแล้วได้ [000] เช่น [001] =>สลับตำแหน่ง3 => [000]
+                } else if (a[lk] == 1 && mapNewChromosome.get(textXml.getProperty("ch") + i).getValue() <= 1) {//กรณีป้องกันไม่ให้เกิดเหตุการonePointแล้วได้ [000] เช่น [001] =>สลับตำแหน่ง3 => [000]
                     int lkOld = lk;
                     do {
                         lk = actionGA.RandomTo(1, chromosomeSize - 1);
                     } while (lk == lkOld);
-                    System.out.println(" MutationNew ch" + i + " IndexNew: " + (lk + 1));
+                    System.out.println(textXml.getProperty("ga.mutation.new")+" "+textXml.getProperty("ch")+ i + " "+textXml.getProperty("random.new") + (lk + 1));
                     a[lk] = 1;
                 } else {                            //ถ้าค่าchromosomeตำแหน่งที่สุ่มมามีค่าเป็น0 จะสลับเป็น 1
                     a[lk] = 1;
                 }
 
                 //System.out.println(Arrays.toString(a));
-                mapNewChromosome.get("ch" + i).setChromosome(a);    //setค่าChromosome ใหม่
+                mapNewChromosome.get(textXml.getProperty("ch") + i).setChromosome(a);    //setค่าChromosome ใหม่
             } else {
                 System.out.println("");
             }
@@ -286,7 +291,7 @@ public class GA {
         for (int i = 1; i <= populationSize; i++) {
 
             int value = 0;
-            String dec = Arrays.toString(mapNewChromosome.get("ch" + i).getChromosome());       //เก็บChromosomeของchนั้นๆ
+            String dec = Arrays.toString(mapNewChromosome.get(textXml.getProperty("ch") + i).getChromosome());       //เก็บChromosomeของchนั้นๆ
             dec = dec.substring(1, dec.length() - 1).replaceAll(", ", "");          //ทำให้อยู่ในรูปstring
             for (int j = 0; j < dec.length(); j++) {
                 if (dec.charAt(j) == '1') { //ถ้ามีเลข1ก็นับไว้
@@ -294,16 +299,16 @@ public class GA {
                 }
             }
             //int value = Integer.parseInt(dec, 2);                   //นำไปแปลงให้เป็นเลขฐาน10
-            mapNewChromosome.get("ch" + i).setValue(value);
-            mapNewChromosome.get("ch" + i).setFitness(tUFLP.mainTestold(mapNewChromosome.get("ch" + i).getChromosome(), uflp, textXml)); //หาค่าFitness   c.setFitness( tUFLP.mainTestold(indiv, uflp, textXml)); 
+            mapNewChromosome.get(textXml.getProperty("ch") + i).setValue(value);
+            mapNewChromosome.get(textXml.getProperty("ch") + i).setFitness(tUFLP.mainTestold(mapNewChromosome.get(textXml.getProperty("ch") + i).getChromosome(), uflp, textXml)); //หาค่าFitness   c.setFitness( tUFLP.mainTestold(indiv, uflp, textXml)); 
             // mapNewChromosome.get("ch" + i).setFitness(searchC(mapNewChromosome.get("ch" + i).getChromosome(),dec,mapOldChromosome,uflp,textXml,tUFLP));
-            sumFitness += mapNewChromosome.get("ch" + i).getFitness();
+            sumFitness += mapNewChromosome.get(textXml.getProperty("ch") + i).getFitness();
 
-            if (mapNewChromosome.get("ch" + i).getFitness() < getMinFitness() && status == true) { //status==true คือหลังทำone point แล้ว
+            if (mapNewChromosome.get(textXml.getProperty("ch") + i).getFitness() < getMinFitness() && status == true) { //status==true คือหลังทำone point แล้ว
 
-                setMinFitness(mapNewChromosome.get("ch" + i).getFitness());
-                setMinChromosome(mapNewChromosome.get("ch" + i).getChromosome());
-                setMinCh("ch" + i);
+                setMinFitness(mapNewChromosome.get(textXml.getProperty("ch") + i).getFitness());
+                setMinChromosome(mapNewChromosome.get(textXml.getProperty("ch") + i).getChromosome());
+                setMinCh(textXml.getProperty("ch") + i);
             }
 
         }
@@ -320,10 +325,10 @@ public class GA {
     public double searchC(int[] newChromosome, String decNew, Map<String, Chromosome> mapOldChromosome, ActionUFLP uflp, Properties textXml, TestUFLP tUFLP) {
         for (int i = 1; i <= populationSize; i++) {
             int value = 0;
-            String dec = Arrays.toString(mapOldChromosome.get("ch" + i).getChromosome());
+            String dec = Arrays.toString(mapOldChromosome.get(textXml.getProperty("ch") + i).getChromosome());
             dec = dec.substring(1, dec.length() - 1).replaceAll(", ", "");
             if (decNew.equals(dec)) {
-                return mapOldChromosome.get("ch" + i).getFitness();
+                return mapOldChromosome.get(textXml.getProperty("ch") + i).getFitness();
             }
         }
         return tUFLP.mainTestold(newChromosome, uflp, textXml);

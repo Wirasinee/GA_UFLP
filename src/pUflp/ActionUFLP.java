@@ -33,16 +33,16 @@ public class ActionUFLP {
         System.out.println(textXml.getProperty("status.(n)") + ": " + n);
        
         setM(file.get(index++).intValue()); //จ ลูกค้า
-        System.out.println(textXml.getProperty("m.(m)") + ": " + m);
+        System.out.println(textXml.getProperty("cutomer.(m)") + ": " + m);
 
         distance = new double[m][n];
-        System.out.println(textXml.getProperty("w"));
+        System.out.println(textXml.getProperty("w.(w)"));
         setW(new double[n]);
         for (int i = 0; i < n; i++) {
             w[i] = file.get(index++);
             System.out.println(textXml.getProperty("status") + (i + 1) + " : " + w[i]);
         }
-        System.out.println("distance[ลูกค้า\\สถานี]: ");//ระยะทาง
+        System.out.println(textXml.getProperty("distance"));//ระยะทาง
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
 
@@ -50,7 +50,7 @@ public class ActionUFLP {
             }
         }
         for (int i = 0; i < n; i++) {
-            System.out.print("สถานี" + (i + 1) + ": ");
+            System.out.print(textXml.getProperty("status") + (i + 1) + ": ");
             for (int j = 0; j < m; j++) {
 
                 System.out.print(distance[j][i] + " ");

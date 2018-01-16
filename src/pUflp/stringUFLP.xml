@@ -2,11 +2,11 @@
 <!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
    <properties>
        <!--Customer_ลูกค้า(m)-->
-       <entry key="m">ลูกค้า </entry>
-       <entry key="m.(m)">ลูกค้า(m) </entry>
+       <entry key="cutomer">ลูกค้า </entry>
+       <entry key="cutomer.(m)">ลูกค้า(m) </entry>
        
        <!--ต้นทุน(w)-->
-       <entry key="w">ต้นทุนแต่ละสถานี(w) </entry>
+       <entry key="w.(w)">ต้นทุนแต่ละสถานี(w) </entry>
        <!--status-->
         <entry key="status">สถานี </entry>
         <entry key="status.(n)">สถานี(n) </entry>
@@ -20,11 +20,42 @@
         <entry key="error.file">ตรวจสอบไฟล์</entry>
 
         <!--file-->
-        <entry key="file.path">input path file.txt : </entry>
+        <entry key="file.path">input path file.txt : </entry>     
+        
+        <!--distance-->
+         <entry key="distance">distance[ลูกค้า\\สถานี]:</entry>
         
         <!--other-->
-        
-        
-        
-        
+         <entry key="random">Random: </entry> 
+         <entry key="index">Index: </entry>
+         <entry key="index.new">IndexNew: </entry>
+         <entry key="ch">ch</entry>
+         
+        <!-- GA -->
+         <entry key="ga.generation.number">---- Generation </entry>
+         
+            <!--ga.crossover-->
+            <entry key="ga.crossover">crossover</entry>
+            <entry key="ga.crossover.subject.parent">--Crossover Parent--</entry>
+            <entry key="ga.crossover.subject.offspring">--Crossover Offspring--</entry>
+         
+            <!--ga.mutation-->
+            <entry key="ga.mutation">Mutation</entry>
+            <entry key="ga.mutation.new">MutationNew</entry>
+            <entry key="ga.mutation.subject.offspring">--One Point Mutation offspring--</entry>
+            
+            <!--ga.chromosome-->
+            <entry key="ga.chromosome.table">Table Chromosome (indiv|chromosome|value|fitness)</entry>
+            <entry key="ga.chromosome.table.full">Table Chromosome (indiv|chromosome|value|fitness|percentage|sumPercentage)</entry>
+            <entry key="ga.chromosome.invividualConvertMatingPool">invividual=>matingPool</entry>
+         
+            <!--ga other-->
+             <entry key="ga.generation.min.finess">min finess Generation </entry>
+             <entry key="ga.generation.min.chromosome">min chromosome Generation </entry>
+             <entry key="ga.generation.best.finess">best finess : </entry>
+             <entry key="ga.generation.best.chromosome">best chromosome : </entry>
+             
+        <!--Ant-->
+             <entry key="ant">---Ant System---</entry>
+
    </properties>

@@ -20,6 +20,10 @@ import java.text.DecimalFormat;
 import java.util.Scanner;
 
 public class Locations {
+    int numSeed=1;
+    /*Locations(int num){
+        numSeed = num;
+    }*/
     public void getLocations() throws IOException{
         Random random = new Random();
         
@@ -40,31 +44,32 @@ public class Locations {
         File file_random_location = new File(filepath_random_location);
         FileWriter writer_random_location = new FileWriter(file_random_location, false);  //True = Append to file, false = Overwrite
         
-        System.out.println("Warehouse Locations\n");
+        //System.out.println("Warehouse Locations\n");
         writer_random_location.write("warehouse locations: "+n+"\r\n");
+        random.setSeed(numSeed);
         for(int i=0;i<n;i++){         //warehouse
             warehouse_locations[i][0] = random.nextInt(1500)+500;
             warehouse_locations[i][1] = random.nextInt(1500)+500;
             writer_random_location.write("( "+warehouse_locations[i][0]+" , "+warehouse_locations[i][1]+" )\r\n");
-            System.out.println("( "+warehouse_locations[i][0]+" , "+warehouse_locations[i][1]+" )\n");
+            //System.out.println("( "+warehouse_locations[i][0]+" , "+warehouse_locations[i][1]+" )\n");
         }
-        System.out.println("Customer Locations\n");
+        //System.out.println("Customer Locations\n");
         writer_random_location.write("customer locations: "+m+"\r\n");
         for(int j=0;j<m;j++){         //customer
             customer_locations[j][0] = random.nextInt(1500)+500;
             customer_locations[j][1] = random.nextInt(1500)+500;
             writer_random_location.write("( "+customer_locations[j][0]+" , "+customer_locations[j][1]+" )\r\n");
-            System.out.println("( "+customer_locations[j][0]+" , "+customer_locations[j][1]+" )\n");
+            //System.out.println("( "+customer_locations[j][0]+" , "+customer_locations[j][1]+" )\n");
         }
         writer_random_location.close();
         
-        System.out.println("All distance from each warehouse to each customer\n");
+        //System.out.println("All distance from each warehouse to each customer\n");
         String filepath_distance_location = "D:\\"+"DistanceFile.txt";
         File file_distance_location = new File(filepath_distance_location);
         FileWriter writer_distance_location = new FileWriter(file_distance_location, false);
         
         writer_distance_location.write(n+" "+m+"\r\n");
-        System.out.println("Cost of each warehouse\n");
+        //System.out.println("Cost of each warehouse\n");
         for(int i=0;i<n;i++){
             for(int j=0;j<m;j++){
                 double a = abs(warehouse_locations[i][0])*abs(warehouse_locations[i][0]);   //System.out.println(a);
@@ -72,9 +77,9 @@ public class Locations {
                 cost[i] = sqrt(a+b);
                 
             }writer_distance_location.write((new DecimalFormat("0.0000").format(cost[i]))+" \r\n");
-            System.out.println((new DecimalFormat("0.0000").format(cost[i]))+" \n");
+            //System.out.println((new DecimalFormat("0.0000").format(cost[i]))+" \n");
         }
-        System.out.println("Cost of each customer from warehouse\n");
+        //System.out.println("Cost of each customer from warehouse\n");
         for(int i=0;i<n;i++){
             for(int j=0;j<m;j++){
                 double a = abs(warehouse_locations[i][0]-customer_locations[j][0])*abs(warehouse_locations[i][0]-customer_locations[j][0]);   //System.out.println(a);
@@ -83,10 +88,10 @@ public class Locations {
                 writer_distance_location.write((new DecimalFormat("0.0000").format(distance[i][j]))+" ");
 //                DecimalFormat dec = new DecimalFormat("0.00");
 //                double a = dec.format(distance[i][j]);
-                System.out.println((new DecimalFormat("0.0000").format(distance[i][j]))+" ");
+                //System.out.println((new DecimalFormat("0.0000").format(distance[i][j]))+" ");
             }
             writer_distance_location.write("\r\n");
-            System.out.println();
+            //System.out.println();
         }
       
         writer_distance_location.close();

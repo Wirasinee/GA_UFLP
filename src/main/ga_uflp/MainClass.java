@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package main;
+package main.ga_uflp;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -52,9 +52,9 @@ public class MainClass {
         GA ga = new GA(chromosomeSize, populationSize, popCrossover, popMutation);
         Map<String, Chromosome> mapParent = new TreeMap<>(); //map ของพ่อแม่
         Map<String, Chromosome> mapOffspring = new TreeMap<>();  //map ของลูกคนใหม่
-        System.out.println("---- Generation 0");
+        System.out.println(textXml.getProperty("ga.generation.number")+"0");
         //parent
-        System.out.println("--Crossover Parent--");
+        System.out.println(textXml.getProperty("ga.crossover.subject.parent"));//--Crossover Parent--
         mapParent = ga.createTableParent(ga.createTable(mapParent, uflp, textXml, tUFLP)); //สร้างตาราง chromosome ของพ่อแม่
         ga.printTableChromosomeAll(mapParent); //แสดงตาราง พ่อแม่
 
@@ -62,25 +62,25 @@ public class MainClass {
 
             String[] matingPool = ga.createMatingPool(mapParent); //สร้าง invividual และ matingPool
             //offspring
-            System.out.println("--Crossover Offspring--");
+            System.out.println(textXml.getProperty("ga.crossover.subject.offspring"));//--Crossover Offspring--
             mapOffspring = ga.crossover(mapParent, mapOffspring); //crossover พ่อแม่ กลายเป็น chromosome ลูก
             //ga.sumFitnessOffspring(mapOff3spring,mapParent,tUFLP);
             ga.sumFitnessOffspring(false,mapOffspring, mapParent, uflp, textXml, tUFLP);//หาผมลรวม Fitness ของลูก
             ga.printTableChromosome(mapOffspring);//แสดงตาราง
             
-            System.out.println("--One Point Mutation offspring--");
+            System.out.println(textXml.getProperty("ga.mutation.subject.offspring"));//"--One Point Mutation offspring--"
             ga.onePointMutation(mapOffspring); //ผ่าเหล่าลูก
             ga.sumFitnessOffspring(true,mapOffspring, mapParent, uflp, textXml, tUFLP);//หาผมลรวม Fitness ของลูก
             mapParent = ga.createTableParent(mapOffspring); //สร้างตารางของ ลูก และเป็นตารางของพ่อแม่ต่อรุ่นต่อไป
 
-            System.out.println("------- Generation " + gen); 
+            System.out.println(textXml.getProperty("ga.generation.number")+ gen); //พิม Generation ปัจจุบัน
             ga.printTableChromosomeAll(mapOffspring); //แสดงตาราง ลูก
             
-            System.out.println("min finess Generation "+gen+" : "+ga.getMinFitness()+" "+ga.getMinCh()); //ค่า finess ที่น้อยที่สุด ในแต่ละรุ่น
-            System.out.println("min chromosome Generation "+gen+" : "+Arrays.toString(ga.getMinChromosome())); //chromosomeที่ให้ค้่finessที่น้อยที่สุดในแต่ละรุ่น
+            System.out.println(textXml.getProperty("ga.generation.min.finess")+gen+" : "+ga.getMinFitness()+" "+ga.getMinCh()); //ค่า finess ที่น้อยที่สุด ในแต่ละรุ่น
+            System.out.println(textXml.getProperty("ga.generation.min.chromosome")+gen+" : "+Arrays.toString(ga.getMinChromosome())); //chromosomeที่ให้ค้่finessที่น้อยที่สุดในแต่ละรุ่น
             
-            System.out.println("best finess : "+ga.getBestFitness());  //finessที่น้อยที่สุด
-            System.out.println("best chromosome : "+Arrays.toString(ga.getBestChromosome()));  
+            System.out.println(textXml.getProperty("ga.generation.best.finess")+ga.getBestFitness());  //finessที่น้อยที่สุด
+            System.out.println(textXml.getProperty("ga.generation.best.chromosome")+Arrays.toString(ga.getBestChromosome()));  
             System.out.println("______________________________");
 
         }
