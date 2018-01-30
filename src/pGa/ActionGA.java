@@ -12,7 +12,11 @@ import java.util.Random;
  * @author Wirasinee
  */
 public class ActionGA {
-    
+    Random random;
+    ActionGA(int seed){
+        random= new Random();
+        random.setSeed(seed);
+    }
     
     public static int[] combine(int[] a, int[] b, int lk) {
         int[] result = new int[a.length];
@@ -22,7 +26,7 @@ public class ActionGA {
     }
 
     public int randomZeroOrOne() {
-        double r = Math.random();
+        double r = random.nextDouble();
         if (r > 0.5) {
             return 1;
         } else {
@@ -30,9 +34,22 @@ public class ActionGA {
         }
     }
 
-    public int RandomTo(int a, int b) {
-        Random random = new Random();
+    public int randomTo(int a, int b) {
         return random.nextInt(b) + a;
     }
+    
+    public double randomDouble() {
+        return random.nextDouble();
+    }
+    
+    public double randomToDouble(int a, int b) {
+        return random.nextDouble() +(random.nextInt(b) + a);
+    }
+
+    public Random getRandom() {
+        return random;
+    }
+    
+    
     
 }

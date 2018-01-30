@@ -37,26 +37,26 @@ public class MainAnt {
         MainAnt mc = new MainAnt();
         textXml.loadFromXML(uflp.getXML()); //โหลดไฟล์xmlที่ไว้เก็บstring
         try {
-            mc.inputFile = file.readFile("D:\\DistanceFile.txt");//D:\\test\\2\\3\\DistanceFile.txt
+            mc.inputFile = file.readFileDouble("D:\\DistanceFile.txt");//D:\\test\\2\\3\\DistanceFile.txt
         } catch (Exception e) {
             System.err.println(textXml.getProperty("email.support"));
         }
         uflp.inputAll(mc.inputFile, textXml); //แสดงข้อมูล ระยะทางสถานีไปโกดัง ต้นทุนสถานี
 //-------------------------------------------------------------------------------
-        double T[] = new double[uflp.getN()];
-        double eta[] = new double[uflp.getN()];
-        double percentage[] = new double[uflp.getN()];
+        double T[] = new double[uflp.getM()];
+        double eta[] = new double[uflp.getM()];
+        double percentage[] = new double[uflp.getM()];
 //char location[] = new char[10];
         double summation = 0;
         int alpha = 1;
         int beta = 2;
-        int arrANS[] = new int[uflp.getN()];
-        double p[] = new double[uflp.getN()];
+        int arrANS[] = new int[uflp.getM()];
+        double p[] = new double[uflp.getM()];
 
         System.out.println();
         System.out.println(textXml.getProperty("ant"));
 
-        for (int i = 0; i < uflp.getN(); i++) {
+        for (int i = 0; i < uflp.getM(); i++) {
             T[i] = 0.1;
             System.out.println("T" + (i + 1) + " : " + T[i]);
             eta[i] = 1 / uflp.getW()[i]; //(random.nextInt(2000)+1000.0); //(1000 + (int)(Math.random() * (5000))
@@ -74,14 +74,14 @@ public class MainAnt {
         System.out.println("------------------------------");
 //-----------------------------------------------------------------------------
         System.out.println("ค่า P หลังจากหารด้วย summation");
-        for (int i = 0; i < uflp.getN(); i++) {
+        for (int i = 0; i < uflp.getM(); i++) {
             p[i] = p[i] / summation;
             System.out.println(p[i]);
         }
         System.out.println("-------------------------------");
 //---------------------------------------------------------------------------
         double temp = 0;
-        for (int i = 0; i < uflp.getN(); i++) {
+        for (int i = 0; i < uflp.getM(); i++) {
 
             if (i == 0) {
                 temp += p[0];
@@ -99,7 +99,7 @@ public class MainAnt {
         double r = Math.random();
         System.out.println("ค่าสุ่มเลือกเมือง : " + r);
 
-        for (int i = 0; i <= uflp.getN(); i++) {
+        for (int i = 0; i <= uflp.getM(); i++) {
             if (r <= percentage[i]) {
                 arrANS[0] = i;
                 break;

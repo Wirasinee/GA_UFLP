@@ -3,13 +3,21 @@
    <properties>
        <!--Customer_ลูกค้า(m)-->
        <entry key="cutomer">ลูกค้า </entry>
-       <entry key="cutomer.(m)">ลูกค้า(m) </entry>
+       <entry key="cutomer.(n)">ลูกค้า(n) </entry>
        
        <!--ต้นทุน(w)-->
        <entry key="w.(w)">ต้นทุนแต่ละสถานี(w) </entry>
+       
+       <!--ความจุของสถานี(capacity)-->
+       <entry key="capacity.(c)">ความจุแต่ละสถานี(capacity)</entry>
+       <entry key="capacity.and.w">[ความจุแต่ละสถานี(w)\\ต้นทุนแต่ละสถานี(w)]</entry>
+       
+       <!--ความต้องการ(demand)-->
+       <entry key="demand.(d)">ความต้องการ(demand)</entry>
+       <entry key="demand.cutomer">ความต้องการของลูกค้าตำแหน่งที่ </entry>
        <!--status-->
         <entry key="status">สถานี </entry>
-        <entry key="status.(n)">สถานี(n) </entry>
+        <entry key="status.(m)">สถานี(m) </entry>
 	<entry key="status.service">[สถานีที่เปิด] จำนวนคนที่ถูกบริการในสถานีนั้นๆ</entry>
         <entry key="status.open">เพราะฉะนั้นสถานีที่เปิดคือ </entry>
         
@@ -23,13 +31,15 @@
         <entry key="file.path">input path file.txt : </entry>     
         
         <!--distance-->
-         <entry key="distance">distance[ลูกค้า\\สถานี]:</entry>
+         <entry key="distance">ค่าใช้จ่าย(distance)แต่ละสถานีในการให้บริการลูกค้าตำแหน่งที่ </entry>
         
         <!--other-->
          <entry key="random">Random: </entry> 
          <entry key="index">Index: </entry>
          <entry key="index.new">IndexNew: </entry>
          <entry key="ch">ch</entry>
+         <entry key="standardDeviation">standardDeviation: </entry>
+         <entry key="meanBestFitness">meanBestFitness: </entry>
          
         <!-- GA -->
          <entry key="ga.generation.number">---- Generation </entry>
