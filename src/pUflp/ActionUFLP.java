@@ -125,8 +125,8 @@ public class ActionUFLP {
 
   
 
-    public int getS() {
-        return s = (10*getM());
+    public int getS(int x) {
+        return s = (x*getM());
     }
 
     public void setS(int s) {
@@ -157,9 +157,7 @@ public class ActionUFLP {
         this.inputFile = inputFile;
     }
 
-    public double searchC(int value) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+   
 
 }
 /*

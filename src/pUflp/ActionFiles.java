@@ -1,11 +1,9 @@
 package pUflp;
 
-
-
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -13,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -21,17 +20,18 @@ import java.util.TreeMap;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author Wirasinee
  */
 public class ActionFiles {
+
     String path;
     FileWriter writer;
     BufferedWriter buffer;
-    
-    public ActionFiles(){}
+
+    public ActionFiles() {
+    }
 
     public ActionFiles(String path) throws IOException {
         this.path = path;
@@ -46,8 +46,8 @@ public class ActionFiles {
     public void nextLine() throws IOException {
         buffer.newLine();
     }
-    
-    public void close() throws IOException{
+
+    public void close() throws IOException {
         buffer.close();
     }
 
@@ -56,93 +56,116 @@ public class ActionFiles {
         writer = new FileWriter(path);
         buffer = new BufferedWriter(writer);
     }
-    
-    public String getNameFile(){
+
+    public String getNameFile() {
         Path p = Paths.get(path);
         String namefile = p.getFileName().toString();
         return namefile;
     }
-    
-   
-    
-    public ArrayList<String> readFile(String path){
-		java.io.File file = new java.io.File(path);
-		ArrayList<String> al = new ArrayList<>();
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(file));
-			String line;
-                        
-			while ((line = br.readLine()) != null) {
-				//System.out.println(line);
-                                String[] arr1 = line.trim().split("\\s+");
-                                for(int i=0;i<arr1.length;i++){
-                                    
-                                     al.add(arr1[i]);
-                                    
-                                }
-                         
-                        }
-			br.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+    public ArrayList<String> readFile(String path) {
+        java.io.File file = new java.io.File(path);
+        ArrayList<String> al = new ArrayList<>();
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                //System.out.println(line);
+                String[] arr1 = line.trim().split("\\s+");
+                for (int i = 0; i < arr1.length; i++) {
+
+                    al.add(arr1[i]);
+
+                }
+
+            }
+            br.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         return al;
-   
+
     }
-    
-    public ArrayList<Double> readFileDouble(String path){
-		java.io.File file = new java.io.File(path);
-		ArrayList<Double> al = new ArrayList<>();
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(file));
-			String line;
-                        
-			while ((line = br.readLine()) != null) {
-				//System.out.println(line);
-                                String[] arr1 = line.trim().split("\\s+");
-                                for(int i=0;i<arr1.length;i++){
-                                    
-                                     al.add(Double.parseDouble(arr1[i]));
-                                    
-                                }
-                         
-                        }
-			br.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+    public ArrayList<Double> readFileDouble(String path) {
+        java.io.File file = new java.io.File(path);
+        ArrayList<Double> al = new ArrayList<>();
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                //System.out.println(line);
+                String[] arr1 = line.trim().split("\\s+");
+                for (int i = 0; i < arr1.length; i++) {
+
+                    al.add(Double.parseDouble(arr1[i]));
+
+                }
+
+            }
+            br.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         return al;
-   
+
     }
-    
-    public ArrayList<Integer> readFileInt(String path){
-		java.io.File file = new java.io.File(path);
-		ArrayList<Integer> al = new ArrayList<>();
-		try {
-			BufferedReader br = new BufferedReader(new FileReader(file));
-			String line;
-                        
-			while ((line = br.readLine()) != null) {
-				//System.out.println(line);
-                                String[] arr1 = line.trim().split("\\s+");
-                                for(int i=0;i<arr1.length;i++){
-                                    
-                                     al.add(Integer.parseInt(arr1[i]));
-                                    
-                                }
-                         
-                        }
-			br.close();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+    public ArrayList<Integer> readFileInt(String path) {
+        java.io.File file = new java.io.File(path);
+        ArrayList<Integer> al = new ArrayList<>();
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String line;
+
+            while ((line = br.readLine()) != null) {
+                //System.out.println(line);
+                String[] arr1 = line.trim().split("\\s+");
+                for (int i = 0; i < arr1.length; i++) {
+
+                    al.add(Integer.parseInt(arr1[i]));
+
+                }
+
+            }
+            br.close();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         return al;
-   
+
     }
-    
+
+    public Map<String, Double> readFileMap(String path) throws FileNotFoundException {
+        java.io.File file = new java.io.File(path);
+        Map<String, Double> al = new HashMap();
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            String line;
+            br.readLine();    
+            while ((line = br.readLine()) != null) {
+                //System.out.println(line);
+                String[] arr1 = line.trim().split("\\s+");
+                for (int i = 0; i < arr1.length; i+=2) {
+
+                    al.put(arr1[i], Double.parseDouble(arr1[i+1]));
+
+                }
+
+            }
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        return al;
+
+    }
+
     public void listPathFile(String directoryName, ArrayList<String> files) {
         //String directoryName = "D:\\test\\Istanze";
 
@@ -159,7 +182,7 @@ public class ActionFiles {
 
         }
     }
-    
+
     public void creatingDirectory(String directoryName) {
         //String directoryName = "D:\\test\\Istanze";
 
@@ -174,8 +197,5 @@ public class ActionFiles {
 
         }
     }
- 
+
 }
-
-    
-

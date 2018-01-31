@@ -28,8 +28,10 @@ public class GA {
     static Properties textXml = new Properties();
     static ActionUFLP uflp = new ActionUFLP();
     private double minFitness, bestFitness = Double.MAX_VALUE; // minFitness เก็บ Fitness ที่ดีที่สุดในแต่ละรุ่น , bestFitness เก็บ Fitness สุดท้ายที่ดีที่สุด
-    private String minCh; //เก็บch ที่ให้Fitnessที่ดีที่สุดในแต่ละรุ่น
+    private double maxFitness,worstFitness = Double.MIN_VALUE;
+    private String minCh,maxCh; //เก็บch ที่ให้Fitnessที่ดีที่สุดในแต่ละรุ่น
     private int[] minChromosome, bestChromosome;  // minChromosome เก็บChromosome ที่ให้ค่า Fitness ที่ดีที่สุดในแต่ละรุ่น , bestChromosome เก็บChromosome ที่ให้ค่า Fitness สุดท้ายที่ดีที่สุด
+    private int[] maxChromosome, worstChromosome;
     ActionGA actionGA;
     private int chromosomeSize;
     private int populationSize;
@@ -321,6 +323,7 @@ public class GA {
     public void sumFitnessOffspring(boolean status, Map<String, Chromosome> mapNewChromosome, Map<String, Chromosome> mapOldChromosome, ActionUFLP uflp, Properties textXml, TestUFLP tUFLP) {
         //offspring
         setMinFitness(Double.MAX_VALUE);
+        setMaxFitness(Double.MIN_VALUE);
         minChromosome = new int[chromosomeSize];
         indiv = new int[chromosomeSize];
         sumFitness = 0;
@@ -346,6 +349,12 @@ public class GA {
                 setMinChromosome(mapNewChromosome.get(textXml.getProperty("ch") + i).getChromosome());
                 setMinCh(textXml.getProperty("ch") + i);
             }
+            if (mapNewChromosome.get(textXml.getProperty("ch") + i).getFitness() > getMaxFitness() && status == true) { //status==true คือหลังทำone point แล้ว
+
+                setMaxFitness(mapNewChromosome.get(textXml.getProperty("ch") + i).getFitness());
+                setMaxChromosome(mapNewChromosome.get(textXml.getProperty("ch") + i).getChromosome());
+                setMaxCh(textXml.getProperty("ch") + i);
+            }
 
         }
 
@@ -353,6 +362,12 @@ public class GA {
             //System.out.println("yerrrrrr");
             setBestFitness(getMinFitness());
             setBestChromosome(getMinChromosome());
+
+        }
+        if (getMaxFitness() > getWorstFitness() && status == true) {
+            //System.out.println("yerrrrrr");
+            setWorstFitness(getMinFitness());
+            setWorstChromosome(getMinChromosome());
 
         }
         //System.out.println("sumFitness:" + sumFitness);
@@ -406,6 +421,48 @@ public class GA {
     public void setSumPercentage(double sumPercentage) {
         this.sumPercentage = sumPercentage;
     }
+
+    public double getMaxFitness() {
+        return maxFitness;
+    }
+
+    public void setMaxFitness(double maxFitness) {
+        this.maxFitness = maxFitness;
+    }
+
+    public double getWorstFitness() {
+        return worstFitness;
+    }
+
+    public void setWorstFitness(double worstFitness) {
+        this.worstFitness = worstFitness;
+    }
+
+    public String getMaxCh() {
+        return maxCh;
+    }
+
+    public void setMaxCh(String maxCh) {
+        this.maxCh = maxCh;
+    }
+
+    public int[] getMaxChromosome() {
+        return maxChromosome;
+    }
+
+    public void setMaxChromosome(int[] maxChromosome) {
+        this.maxChromosome = maxChromosome;
+    }
+
+    public int[] getWorstChromosome() {
+        return worstChromosome;
+    }
+
+    public void setWorstChromosome(int[] worstChromosome) {
+        this.worstChromosome = worstChromosome;
+    }
+    
+    
 
     public int[] getIndiv() {
         return indiv;

@@ -65,6 +65,11 @@
              <entry key="ga.generation.best.finess">best finess : </entry>
              <entry key="ga.generation.best.chromosome">best chromosome : </entry>
              
+             <entry key="ga.generation.max.finess">max finess Generation </entry>
+             <entry key="ga.generation.max.chromosome">max chromosome Generation </entry>
+             <entry key="ga.generation.worst.finess">worst finess : </entry>
+             <entry key="ga.generation.worst.chromosome">worst chromosome : </entry>
+             
         <!--Ant-->
              <entry key="ant">---Ant System---</entry>
 
